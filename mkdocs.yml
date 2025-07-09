@@ -1,4 +1,5 @@
 site_name: ExpEngine Documentation
+site_url: https://extremexp-horizon.github.io/extremexp-experimentation-engine-docs/
 theme:
   name: material
   custom_dir: overrides
