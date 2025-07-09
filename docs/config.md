@@ -132,8 +132,8 @@ Configures how data is handled and accessed:
 | `DATA_ABSTRACTION_ACCESS_TOKEN` | Access token for DAL authentication. | String | If using DAL |
 | `DATASET_MANAGEMENT` | Data management strategy. | `"LOCAL"` or `"DDM"` | Yes |
 | `DDM_URL` | Endpoint for DDM (used if `DDM` selected). | Valid URL | If using DDM |
-| `PORTAL_USERNAME` | Your portal username for DDM authentication | String | If using DDM |
-| `PORTAL_PASSWORD` | Your portal password for DDM authentication | String | If using DDM |
+| `PORTAL_USERNAME` | credentials you use to login to the portal deployed in ICOM | String | If using DDM |
+| `PORTAL_PASSWORD` | credentials you use to login to the portal deployed in ICOM | String | If using DDM |
 
 #### Data Management Options
 

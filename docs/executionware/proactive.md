@@ -1,6 +1,6 @@
 # Proactive ExecutionWare
 
-Proactive ExecutionWare provides a distributed execution environment for workflows running on cloud infrastructure and computing clusters. It supports both local file storage and distributed data management through Zenoh DDM (Distributed Data Management).
+Proactive ExecutionWare provides a distributed execution environment for workflows running on cloud infrastructure and computing clusters. It supports both local file storage and distributed data management through DDM (Distributed Data Management).
 
 ## Overview
 
@@ -18,11 +18,11 @@ Proactive ExecutionWare internally uses runtime configuration files that contain
 - Similar to Local ExecutionWare but with Proactive infrastructure
 - Set `DATASET_MANAGEMENT: "LOCAL"`
 
-#### ZENOH Mode
+#### DDM Mode
 
 - Uses distributed data management
 - Supports cloud storage and distributed computing
-- Set `DATASET_MANAGEMENT: "ZENOH"`
+- Set `DATASET_MANAGEMENT: "DDM"`
 
 ## Helper Functions
 
@@ -130,13 +130,13 @@ data = ph.load_dataset_by_path("/path/to/file.csv")
 
 1. Data is converted to bytes
 2. Metadata is created with task and workflow information
-3. Files are uploaded to Zenoh storage
+3. Files are uploaded to DDM storage
 4. File URLs and metadata are stored in resultMap
 
 #### Download Process
 
 1. File catalog is searched based on project and filename
-2. Files are downloaded from Zenoh storage
+2. Files are downloaded from DDM storage
 3. Content is returned as bytes
 4. Metadata is tracked in resultMap
 
@@ -233,7 +233,7 @@ ph.save_datasets(variables, resultMap, "ml_outputs",
 print(f"Model trained with accuracy: {accuracy:.4f}")
 ```
 
-### Task with Zenoh DDM
+### Task with DDM
 ```python
 import os
 import sys
@@ -295,7 +295,7 @@ roc_data = {
     "auc": round(auc, 4)
 }
 
-# Prepare outputs for Zenoh
+# Prepare outputs for DDM
 outputs = [
     df_to_csv_bytes(test_features),
     df_to_csv_bytes(test_labels),
@@ -312,7 +312,7 @@ filenames = [
     'model.pkl'
 ]
 
-print("Uploading results to Zenoh...")
+print("Uploading results to DDM...")
 ph.save_datasets(variables, resultMap, "analysis_results", outputs, filenames)
 
 print(f"Analysis complete. AUC: {auc:.4f}")
@@ -355,9 +355,9 @@ workflow DataProcessingWorkflow {
 }
 ```
 
-### Zenoh DDM Workflows
+### DDM Workflows
 ```dsl
-workflow ZenohDataProcessingWorkflow {
+workflow DDMDataProcessingWorkflow {
   START -> ReadData -> ProcessData -> SaveResults -> END;
   
   task ReadData {
@@ -376,12 +376,12 @@ workflow ZenohDataProcessingWorkflow {
   define output data OutputFile;
   
   configure data InputFile {
-    zenoh_name "input_dataset.csv";
-    zenoh_project "ml_experiment_project";
+    name "input_dataset.csv";
+    project "ml_experiment_project";
   }
   
   configure data OutputFile {
-    zenoh_project "ml_experiment_results";
+    project "ml_experiment_results";
   }
   
   InputFile --> ReadData.input_data;
@@ -393,14 +393,14 @@ workflow ZenohDataProcessingWorkflow {
 
 ???+ info
 
-    When using Zenoh DDM, the workflow DSL configuration changes:
+    When using DDM, the workflow DSL configuration changes:
     
     ### Single File Input
     ```dsl
     define input data InputFile;
     configure data InputFile {
-      zenoh_name "titanic.json";
-      zenoh_project "demo_project_ilias";
+      name "titanic.json";
+      project "demo_project";
     }
     ```
     
@@ -408,7 +408,7 @@ workflow ZenohDataProcessingWorkflow {
     ```dsl
     define input data InputFile;
     configure data InputFile {
-      zenoh_project "demo_project_ilias";
+      project "demo_project";
     }
     ```
 
